@@ -88,14 +88,20 @@ body.cursor-hover .cursor { width: 20px; height: 20px; }
 body.cursor-hover .cursor-follower { width: 56px; height: 56px; opacity: .2; }
 
 /* ============================================================
-   PRELOADER — Gotham Night
+   PRELOADER — Gotham Night  (CSS-driven, no JS dependency)
    ============================================================ */
 .preloader {
     position: fixed; inset: 0;
     background: var(--hero-bg);
     display: flex; align-items: center; justify-content: center;
     z-index: 9000; overflow: hidden;
+    /* auto-dismiss: fade out after 2.4s, then become non-interactive */
+    animation: preloaderOut 0.7s ease 2.4s forwards;
 }
+@keyframes preloaderOut {
+    to { opacity: 0; visibility: hidden; pointer-events: none; }
+}
+
 .pre-bats { position: absolute; inset: 0; z-index: 0; }
 
 .pre-inner {
@@ -122,7 +128,12 @@ body.cursor-hover .cursor-follower { width: 56px; height: 56px; opacity: .2; }
     background: linear-gradient(90deg, var(--batman-gold-2), var(--batman-gold));
     border-radius: 99px;
     box-shadow: 0 0 12px rgba(255,215,0,.6);
-    transition: width .05s linear;
+    /* CSS-driven fill — no JS needed */
+    animation: barFill 2.1s ease-out forwards;
+}
+@keyframes barFill {
+    from { width: 0%; }
+    to   { width: 100%; }
 }
 .pre-label {
     font-family: var(--font-head);
@@ -133,10 +144,8 @@ body.cursor-hover .cursor-follower { width: 56px; height: 56px; opacity: .2; }
 /* ============================================================
    SITE WRAPPER
    ============================================================ */
+/* site is always visible — preloader sits on top via fixed z-index */
 .site { min-height: 100vh; }
-.site.hidden { opacity: 0; }
-.site.visible { animation: siteReveal .8s var(--ease) forwards; }
-@keyframes siteReveal { from { opacity: 0; } to { opacity: 1; } }
 
 /* ============================================================
    BACKGROUND BLOBS (light sections — subtle gold tint)

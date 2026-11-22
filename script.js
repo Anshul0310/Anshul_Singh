@@ -111,67 +111,7 @@ function paintBat(ctx, b, alphaMult) {
 }
 
 // ============================================================
-//  PRELOADER  (helpers above must exist before this runs)
-// ============================================================
-(function initPreloader() {
-    const bar    = document.getElementById('pre-bar');
-    const label  = document.getElementById('pre-label');
-    const loader = document.getElementById('preloader');
-    const site   = document.getElementById('site');
-
-    if (!bar || !label || !loader || !site) return;
-
-    function dismiss() {
-        loader.style.transition = 'opacity .7s ease';
-        loader.style.opacity    = '0';
-        setTimeout(() => {
-            loader.style.display = 'none';
-            site.classList.remove('hidden');
-            site.classList.add('visible');
-            initAll();
-        }, 700);
-    }
-
-    const msgs = ['Entering Gotham…', 'Igniting Bat Signal…', 'Deploying Gadgets…', 'Ready.'];
-    let pct = 0, mi = 0;
-
-    // Safety escape — never get stuck more than 4 seconds
-    const safetyTimer = setTimeout(() => { pct = 100; dismiss(); }, 4000);
-
-    // Mini bat canvas in preloader
-    const preCvs = document.getElementById('pre-bats');
-    if (preCvs) {
-        preCvs.width  = window.innerWidth;
-        preCvs.height = window.innerHeight;
-        const pCtx  = preCvs.getContext('2d');
-        const pBats = Array.from({ length: 12 }, () => mkBat(preCvs.width, preCvs.height));
-        (function loopPre() {
-            pCtx.clearRect(0, 0, preCvs.width, preCvs.height);
-            pBats.forEach(b => { moveBat(b, preCvs.width, preCvs.height); paintBat(pCtx, b, .5); });
-            if (loader && loader.style.display !== 'none') requestAnimationFrame(loopPre);
-        })();
-    }
-
-    const tick = setInterval(() => {
-        pct += Math.random() * 6 + 2;
-        if (pct > 100) pct = 100;
-        bar.style.width = pct + '%';
-
-        if (pct > 28  && mi === 0) { label.textContent = msgs[1]; mi++; }
-        if (pct > 58  && mi === 1) { label.textContent = msgs[2]; mi++; }
-        if (pct > 90  && mi === 2) { label.textContent = msgs[3]; mi++; }
-
-        if (pct >= 100) {
-            clearInterval(tick);
-            clearTimeout(safetyTimer);
-            setTimeout(dismiss, 350);
-        }
-    }, 48);
-})();
-
-
-// ============================================================
-//  BOOTSTRAP
+//  BOOTSTRAP — CSS handles preloader; just init everything
 // ============================================================
 function initAll() {
     initCursor();
@@ -182,8 +122,12 @@ function initAll() {
     initHeroBats();
     initActiveNav();
     initSmoothScroll();
-    lucide.createIcons();
+    // safe lucide call — CDN might be slow
+    if (typeof lucide !== 'undefined') lucide.createIcons();
 }
+
+// Script is at bottom of <body> so DOM is ready — call directly
+initAll();
 
 // ============================================================
 //  CUSTOM CURSOR
