@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anshul Singh — Developer & Builder</title>
+    <meta name="description" content="Portfolio of Anshul Singh — CS & Business Systems student building AI, Web3 & Mobile experiences.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ====== PRELOADER ====== -->
+    <div id="preloader" class="preloader">
+        <canvas id="pre-bats" class="pre-bats"></canvas>
+        <div class="pre-inner">
+            <div class="pre-bat-logo">
+                <svg viewBox="0 0 100 58" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M50,6 C42,6 26,14 14,24 C24,20 34,18 38,22 C34,29 28,37 26,48 C33,43 40,41 44,44 L44,52 C45,55 47,57 50,57 C53,57 55,55 56,52 L56,44 C60,41 67,43 74,48 C72,37 66,29 62,22 C66,18 76,20 86,24 C74,14 58,6 50,6 Z"/>
+                </svg>
+            </div>
+            <div class="pre-bar-wrap">
+                <div class="pre-bar" id="pre-bar"></div>
+            </div>
+            <p class="pre-label" id="pre-label">Entering Gotham…</p>
+        </div>
+    </div>
+
+    <!-- ====== CURSOR ====== -->
+    <div id="cursor" class="cursor"></div>
+    <div id="cursor-follower" class="cursor-follower"></div>
+
+    <!-- ====== MAIN ====== -->
+    <div id="site" class="site hidden">
+
+        <!-- Floating blobs background -->
+        <div class="blob blob-1" aria-hidden="true"></div>
+        <div class="blob blob-2" aria-hidden="true"></div>
+        <div class="blob blob-3" aria-hidden="true"></div>
+
+        <!-- ===== NAV ===== -->
+        <nav class="nav" id="nav">
+            <a href="#" class="nav-logo">Anshul Singh</a>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#skills" class="nav-link">Skills</a></li>
+                <li><a href="#projects" class="nav-link">Projects</a></li>
+                <li><a href="#credentials" class="nav-link">Credentials</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
+                <i data-lucide="menu"></i>
+            </button>
+        </nav>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" id="mobile-menu">
+            <button class="mobile-close" id="mobile-close"><i data-lucide="x"></i></button>
+            <ul>
+                <li><a href="#about" class="mob-link">About</a></li>
+                <li><a href="#skills" class="mob-link">Skills</a></li>
+                <li><a href="#projects" class="mob-link">Projects</a></li>
+                <li><a href="#credentials" class="mob-link">Credentials</a></li>
+                <li><a href="#contact" class="mob-link">Contact</a></li>
+            </ul>
+        </div>
+
+        <main>
+
+            <!-- ===== HERO ===== -->
+            <section id="hero" class="hero">
+
+                <!-- Flying bats canvas -->
+                <canvas id="bat-canvas" class="bat-canvas"></canvas>
+
+                <!-- Bat Signal -->
+                <div class="bat-signal" aria-hidden="true">
+                    <div class="signal-outer-ring"></div>
+                    <div class="signal-glow"></div>
+                    <div class="signal-beam"></div>
+                    <div class="signal-logo">
+                        <svg viewBox="0 0 100 58" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M50,6 C42,6 26,14 14,24 C24,20 34,18 38,22 C34,29 28,37 26,48 C33,43 40,41 44,44 L44,52 C45,55 47,57 50,57 C53,57 55,55 56,52 L56,44 C60,41 67,43 74,48 C72,37 66,29 62,22 C66,18 76,20 86,24 C74,14 58,6 50,6 Z"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Gotham City Skyline -->
+                <div class="gotham-skyline" aria-hidden="true">
+                    <svg viewBox="0 0 1440 200" preserveAspectRatio="xMidYMax meet" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0,200 L0,140 L35,140 L35,110 L50,110 L50,80 L60,80 L60,55 L65,55 L65,35 L70,35 L70,15 L75,15 L75,35 L80,35 L80,55 L85,55 L85,80 L95,80 L95,110 L110,110 L110,90 L122,90 L122,68 L132,68 L132,48 L142,48 L142,68 L148,68 L148,90 L158,90 L158,110 L165,110 L165,140 L200,140 L200,118 L215,118 L215,88 L225,88 L225,62 L230,62 L230,42 L235,42 L235,62 L240,62 L240,88 L252,88 L252,118 L265,118 L265,140 L300,140 L300,108 L315,108 L315,72 L325,72 L325,52 L330,52 L330,30 L335,30 L335,8 L340,8 L340,30 L345,30 L345,52 L350,52 L350,72 L360,72 L360,108 L378,108 L378,140 L415,140 L415,118 L430,118 L430,88 L445,88 L445,65 L455,65 L455,48 L465,48 L465,65 L476,65 L476,88 L490,88 L490,118 L508,118 L508,140 L548,140 L548,108 L562,108 L562,75 L572,75 L572,52 L577,52 L577,28 L582,28 L582,0 L587,0 L587,28 L592,28 L592,52 L597,52 L597,75 L608,75 L608,108 L625,108 L625,140 L668,140 L668,118 L688,118 L688,88 L698,88 L698,68 L708,68 L708,48 L718,48 L718,68 L728,68 L728,88 L744,88 L744,118 L758,118 L758,140 L798,140 L798,108 L812,108 L812,74 L822,74 L822,50 L827,50 L827,28 L832,28 L832,16 L837,16 L837,28 L842,28 L842,50 L852,50 L852,74 L862,74 L862,108 L878,108 L878,140 L922,140 L922,118 L940,118 L940,88 L950,88 L950,68 L960,68 L960,52 L970,52 L970,68 L980,68 L980,88 L996,88 L996,118 L1010,118 L1010,140 L1060,140 L1060,108 L1075,108 L1075,74 L1085,74 L1085,52 L1090,52 L1090,32 L1095,32 L1095,14 L1100,14 L1100,32 L1105,32 L1105,52 L1110,52 L1110,74 L1122,74 L1122,108 L1138,108 L1138,140 L1182,140 L1182,118 L1200,118 L1200,88 L1210,88 L1210,68 L1220,68 L1220,52 L1230,52 L1230,68 L1240,68 L1240,88 L1256,88 L1256,118 L1270,118 L1270,140 L1320,140 L1320,118 L1340,118 L1340,98 L1355,98 L1355,78 L1365,78 L1365,98 L1376,98 L1376,118 L1396,118 L1396,140 L1440,140 L1440,200 Z" fill="#06060f"/>
+                    </svg>
+                </div>
+                <div class="hero-inner">
+                    <h1 class="hero-name reveal">
+                        <span class="name-line">Anshul</span>
+                        <span class="name-line accent">Singh.</span>
+                    </h1>
+                    <p class="hero-tagline reveal">FDE · AI · Web3 · Builder</p>
+                    <div class="hero-cta reveal">
+                        <a href="#projects" class="btn btn-primary">See My Work</a>
+                        <a href="#contact" class="btn btn-ghost">Get in Touch</a>
+                    </div>
+
+                </div>
+
+
+            </section>
+
+            <!-- ===== ABOUT ===== -->
+            <section id="about" class="section about">
+                <div class="container">
+                    <div class="section-tag reveal">About Me</div>
+                    <div class="about-grid">
+                        <div class="about-left reveal">
+                            <h2 class="section-heading">Crafting the future,<br><em>one commit at a time.</em></h2>
+                            <!-- Photo collage -->
+                            <div class="photo-collage">
+                                <div class="photo-frame photo-frame-1">
+                                    <img src="photo2.jpg" alt="Anshul Singh" />
+                                </div>
+                                <div class="photo-frame photo-frame-2">
+                                    <img src="photo1.jpg" alt="Anshul Singh" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="about-right reveal-right">
+                            <p class="about-lead">Machine Learning Engineer with a strong interest in machine learning and generative AI.</p>
+                            <p class="about-body">I've built an AI agent with Pydantic AI and a decentralized marketplace for running LLM inference on Solana, with a web stack of React, Next.js, Node.js and TypeScript. I enjoy digging into how things work under the hood and want to grow as a software engineer building AI-powered products at scale.</p>
+                            <div class="about-pills">
+                                <span class="pill">🎓 Nitte Meenakshi Institute of Technology</span>
+                                <span class="pill">🌏 India</span>
+                                <span class="pill">🤖 Generative AI</span>
+                                <span class="pill">◎ Solana Builder</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stats row -->
+                    <div class="stats-row reveal">
+                        <div class="stat-card">
+                            <span class="stat-num" data-count="6">0</span>
+                            <span class="stat-label">Projects Shipped</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-num" data-count="7">0</span>
+                            <span class="stat-label">Languages</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-num" data-count="2">0</span>
+                            <span class="stat-label">Certifications</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-num" data-count="1">0</span>
+                            <span class="stat-label">Hackathon</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== SKILLS ===== -->
+            <section id="skills" class="section skills">
+                <div class="container">
+                    <div class="section-tag reveal">Skill Set</div>
+                    <h2 class="section-heading reveal">My Arsenal</h2>
+
+                    <div class="skills-grid">
+                        <div class="skill-block reveal">
+                            <div class="skill-block-icon"><i data-lucide="code-2"></i></div>
+                            <h3>Languages</h3>
+                            <div class="skill-chips">
+                                <span>Python</span><span>C</span><span>C++</span>
+                                <span>Dart</span><span>JavaScript</span><span>TypeScript</span><span>Rust</span>
+                            </div>
+                        </div>
+                        <div class="skill-block reveal">
+                            <div class="skill-block-icon"><i data-lucide="database"></i></div>
+                            <h3>Database & APIs</h3>
+                            <div class="skill-chips">
+                                <span>MongoDB</span><span>SQL</span><span>REST APIs</span>
+                            </div>
+                        </div>
+                        <div class="skill-block reveal">
+                            <div class="skill-block-icon"><i data-lucide="lightbulb"></i></div>
+                            <h3>Concepts</h3>
+                            <div class="skill-chips">
+                                <span>API Integration</span><span>DSA</span>
+                                <span>Mobile Dev</span><span>Solana</span><span>AI Agents</span><span>LLM Inference</span>
+                            </div>
+                        </div>
+                        <div class="skill-block reveal">
+                            <div class="skill-block-icon"><i data-lucide="wrench"></i></div>
+                            <h3>Tools & Platforms</h3>
+                            <div class="skill-chips">
+                                <span>Android Studio</span><span>Git</span><span>VS Code</span>
+                                <span>GitHub</span><span>Jupyter</span>
+                            </div>
+                        </div>
+                        <div class="skill-block reveal">
+                            <div class="skill-block-icon"><i data-lucide="users"></i></div>
+                            <h3>Soft Skills</h3>
+                            <div class="skill-chips">
+                                <span>Communication</span><span>Adaptability</span>
+                                <span>Leadership</span><span>Team Work</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Marquee skill strip -->
+                    <div class="marquee-wrap reveal">
+                        <div class="marquee-track">
+                            <span>Python</span><span>·</span><span>Rust</span><span>·</span>
+                            <span>TypeScript</span><span>·</span><span>Flutter</span><span>·</span>
+                            <span>Solana</span><span>·</span><span>React</span><span>·</span>
+                            <span>Pydantic AI</span><span>·</span><span>MongoDB</span><span>·</span>
+                            <span>Google Cloud</span><span>·</span><span>Node.js</span><span>·</span>
+                            <span>Python</span><span>·</span><span>Rust</span><span>·</span>
+                            <span>TypeScript</span><span>·</span><span>Flutter</span><span>·</span>
+                            <span>Solana</span><span>·</span><span>React</span><span>·</span>
+                            <span>Pydantic AI</span><span>·</span><span>MongoDB</span><span>·</span>
+                            <span>Google Cloud</span><span>·</span><span>Node.js</span><span>·</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== PROJECTS ===== -->
+            <section id="projects" class="section projects">
+                <div class="container">
+                    <div class="section-tag reveal">Work</div>
+                    <h2 class="section-heading reveal">Featured Projects</h2>
+
+                    <div class="projects-grid">
+
+                        <!-- AXIOM -->
+                        <article class="proj-card reveal" data-tilt>
+                            <div class="proj-top">
+                                <span class="proj-num">01</span>
+                                <span class="proj-date">2026</span>
+                            </div>
+                            <div class="proj-emoji">🧠</div>
+                            <h3 class="proj-name">Axiom — Decentralized LLM Marketplace</h3>
+                            <p class="proj-desc">A decentralized marketplace built on Solana for running LLM inference on-chain. Node operators stake SOL to offer compute, users pay per-inference via smart contracts, and results are verified cryptographically. Combines the trustlessness of Web3 with the intelligence of modern language models — making AI inference permissionless and censorship-resistant.</p>
+                            <div class="proj-tags">
+                                <span>Solana</span><span>Rust</span><span>Next.js</span><span>TypeScript</span><span>Node.js</span><span>LLM</span><span>Web3.js</span>
+                            </div>
+                            <div class="proj-footer">
+                                <a href="https://github.com/Anshul0310/Axiom" target="_blank" rel="noopener" class="proj-link">
+                                    <i data-lucide="github"></i> View Source
+                                </a>
+                                <div class="proj-arrow"><i data-lucide="arrow-up-right"></i></div>
+                            </div>
+                        </article>
+
+                        <!-- SECURESPHERE -->
+                        <article class="proj-card reveal" data-tilt>
+                            <div class="proj-top">
+                                <span class="proj-num">02</span>
+                                <span class="proj-date">2026</span>
+                            </div>
+                            <div class="proj-emoji">🛡</div>
+                            <h3 class="proj-name">SecureSphere</h3>
+                            <p class="proj-desc">A security-focused platform combining AI-powered threat analysis with decentralized identity. Leverages ML models to detect anomalies in real time while storing access credentials and audit logs on-chain for tamper-proof provenance.</p>
+                            <div class="proj-tags">
+                                <span>React</span><span>TypeScript</span><span>Node.js</span><span>ML</span><span>Solana</span>
+                            </div>
+                            <div class="proj-footer">
+                                <a href="https://github.com/Anshul0310/SecureSphere" target="_blank" rel="noopener" class="proj-link">
+                                    <i data-lucide="github"></i> View Source
+                                </a>
+                                <div class="proj-arrow"><i data-lucide="arrow-up-right"></i></div>
+                            </div>
+                        </article>
+
+                        <article class="proj-card reveal" data-tilt>
+                            <div class="proj-top">
+                                <span class="proj-num">03</span>
+                                <span class="proj-date">Feb 2026</span>
+                            </div>
+                            <div class="proj-emoji">⚡</div>
+                            <h3 class="proj-name">SolSwap</h3>
+                            <p class="proj-desc">Engineered a decentralized exchange ecosystem featuring a React-based interface and a high-performance Node.js Telegram trading bot. Integrated Jupiter API for cross-DEX routing with sub-second confirmation times.</p>
+                            <div class="proj-tags">
+                                <span>React 18</span><span>Node.js</span><span>Solana Web3.js</span><span>Vite</span>
+                            </div>
+                            <div class="proj-footer">
+                                <a href="https://github.com/Anshul0310/SolSwap" target="_blank" rel="noopener" class="proj-link">
+                                    <i data-lucide="github"></i> View Source
+                                </a>
+                                <div class="proj-arrow"><i data-lucide="arrow-up-right"></i></div>
+                            </div>
+                        </article>
+
+                        <article class="proj-card reveal" data-tilt>
+                            <div class="proj-top">
+                                <span class="proj-num">04</span>
+                                <span class="proj-date">Nov 2025</span>
+                            </div>
+                            <div class="proj-emoji">🔐</div>
+                            <h3 class="proj-name">Solana Web Wallet</h3>
+                            <p class="proj-desc">High-performance non-custodial wallet with sub-200KB footprint. Implemented BIP-39 seed phrase derivation and encrypted local storage for secure key management.</p>
+                            <div class="proj-tags">
+                                <span>React</span><span>TypeScript</span><span>Vite</span><span>bip39</span>
+                            </div>
+                            <div class="proj-footer">
+                                <a href="https://github.com/Anshul0310/Solana_Wallet" target="_blank" rel="noopener" class="proj-link">
+                                    <i data-lucide="github"></i> View Source
+                                </a>
+                                <div class="proj-arrow"><i data-lucide="arrow-up-right"></i></div>
+                            </div>
+                        </article>
+
+                        <article class="proj-card reveal" data-tilt>
+                            <div class="proj-top">
+                                <span class="proj-num">05</span>
+                                <span class="proj-date">Oct 2025</span>
+                            </div>
+                            <div class="proj-emoji">🌦</div>
+                            <h3 class="proj-name">Weather Forecast Agent</h3>
+                            <p class="proj-desc">Autonomous weather retrieval agent using Pydantic AI for strongly-typed orchestration. Resolves complex natural language queries into real-time weather reports within 1.5 seconds.</p>
+                            <div class="proj-tags">
+                                <span>Python</span><span>Pydantic AI</span><span>LLM</span><span>Jupyter</span>
+                            </div>
+                            <div class="proj-footer">
+                                <span class="proj-link muted"><i data-lucide="lock"></i> Private</span>
+                                <div class="proj-arrow"><i data-lucide="arrow-up-right"></i></div>
+                            </div>
+                        </article>
+
+                        <article class="proj-card reveal" data-tilt>
+                            <div class="proj-top">
+                                <span class="proj-num">06</span>
+                                <span class="proj-date">Apr 2025</span>
+                            </div>
+                            <div class="proj-emoji">🛍</div>
+                            <h3 class="proj-name">Ecommerce App</h3>
+                            <p class="proj-desc">Premium-feel mobile ecommerce app built with Flutter. Polished UI with custom glassmorphism effects, sophisticated state management for seamless product browsing and cart flows.</p>
+                            <div class="proj-tags">
+                                <span>Flutter</span><span>Dart</span><span>Provider</span><span>Google Fonts</span>
+                            </div>
+                            <div class="proj-footer">
+                                <a href="https://github.com/Anshul0310/ecommerce_app" target="_blank" rel="noopener" class="proj-link">
+                                    <i data-lucide="github"></i> View Source
+                                </a>
+                                <div class="proj-arrow"><i data-lucide="arrow-up-right"></i></div>
+                            </div>
+                        </article>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== CREDENTIALS ===== -->
+            <section id="credentials" class="section credentials">
+                <div class="container">
+                    <div class="section-tag reveal">Recognition</div>
+                    <h2 class="section-heading reveal">Credentials</h2>
+
+                    <div class="cred-grid">
+                        <div class="cred-card reveal">
+                            <div class="cred-left">
+                                <div class="cred-icon cred-icon-gold">
+                                    <i data-lucide="trophy"></i>
+                                </div>
+                            </div>
+                            <div class="cred-right">
+                                <span class="cred-type">Hackathon</span>
+                                <h3>Technex '25 Hackathon</h3>
+                                <p class="cred-org">IIT BHU · 2025</p>
+                                <p class="cred-desc">Selected to compete in the Eco Hackathon challenge, applying computer science principles to engineer scalable solutions for real-world environmental issues.</p>
+                            </div>
+                        </div>
+
+                        <div class="cred-card reveal">
+                            <div class="cred-left">
+                                <div class="cred-icon cred-icon-blue">
+                                    <i data-lucide="award"></i>
+                                </div>
+                            </div>
+                            <div class="cred-right">
+                                <span class="cred-type">Certification</span>
+                                <h3>Professional ML Engineer</h3>
+                                <p class="cred-org">Google Cloud · 2025</p>
+                                <p class="cred-desc">Professional Machine Learning Engineer certification demonstrating expertise in designing and building ML models on Google Cloud infrastructure.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== CONTACT ===== -->
+            <section id="contact" class="section contact">
+                <div class="container">
+                    <div class="contact-card reveal">
+                        <div class="contact-blob-1" aria-hidden="true"></div>
+                        <div class="contact-blob-2" aria-hidden="true"></div>
+                        <div class="contact-inner">
+                            <div class="section-tag">Say Hello</div>
+                            <h2 class="contact-heading">Let's build something<br><em>extraordinary.</em></h2>
+                            <p class="contact-body">Open to internships, collaborations, and interesting conversations. Drop me a line and I'll get back to you fast.</p>
+                            <div class="contact-links">
+                                <a href="mailto:anshulsingh607@gmail.com" class="contact-link">
+                                    <div class="contact-link-icon"><i data-lucide="mail"></i></div>
+                                    <div>
+                                        <span class="contact-link-label">Email</span>
+                                        <span class="contact-link-val">anshulsingh607@gmail.com</span>
+                                    </div>
+                                    <i data-lucide="arrow-up-right" class="contact-link-arrow"></i>
+                                </a>
+                                <a href="tel:+919651245038" class="contact-link">
+                                    <div class="contact-link-icon"><i data-lucide="phone"></i></div>
+                                    <div>
+                                        <span class="contact-link-label">Phone</span>
+                                        <span class="contact-link-val">+91 9651245038</span>
+                                    </div>
+                                    <i data-lucide="arrow-up-right" class="contact-link-arrow"></i>
+                                </a>
+                                <a href="https://www.linkedin.com/in/anshulsingh03" target="_blank" rel="noopener" class="contact-link">
+                                    <div class="contact-link-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></div>
+                                    <div>
+                                        <span class="contact-link-label">LinkedIn</span>
+                                        <span class="contact-link-val">anshulsingh03</span>
+                                    </div>
+                                    <i data-lucide="arrow-up-right" class="contact-link-arrow"></i>
+                                </a>
+                                <a href="https://github.com/Anshul0310" target="_blank" rel="noopener" class="contact-link">
+                                    <div class="contact-link-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></div>
+                                    <div>
+                                        <span class="contact-link-label">GitHub</span>
+                                        <span class="contact-link-val">Anshul0310</span>
+                                    </div>
+                                    <i data-lucide="arrow-up-right" class="contact-link-arrow"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- ===== FOOTER ===== -->
+        <footer class="footer">
+            <div class="footer-inner">
+                <span class="footer-logo">Anshul Singh</span>
+                <span class="footer-copy">© 2026 Anshul Singh. All rights reserved.</span>
+                <span class="footer-note">Built with ♥ and lots of ☕</span>
+            </div>
+        </footer>
+
+    </div><!-- /site -->
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script>lucide.createIcons();</script>
+</body>
+
+</html>

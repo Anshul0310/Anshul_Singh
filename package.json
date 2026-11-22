@@ -1,0 +1,16 @@
+{
+  "name": "anshul-singh-portfolio",
+  "version": "1.0.0",
+  "description": "Old Money x Cybertech Portfolio",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "keywords": [],
+  "author": "Anshul Singh",
+  "license": "ISC",
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
+}
