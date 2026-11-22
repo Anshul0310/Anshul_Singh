@@ -7,7 +7,111 @@
    ============================================================ */
 
 // ============================================================
-//  PRELOADER
+//  BAT FACTORY  (must be defined before preloader IIFE runs)
+// ============================================================
+function mkBat(W, H) {
+    const edge  = Math.floor(Math.random() * 4);
+    let x, y;
+    if (edge === 0) { x = Math.random() * W; y = -30; }
+    else if (edge === 1) { x = W + 30; y = Math.random() * H; }
+    else if (edge === 2) { x = Math.random() * W; y = H + 30; }
+    else                 { x = -30; y = Math.random() * H; }
+
+    const tx = W * (.3 + Math.random() * .4);
+    const ty = H * (.3 + Math.random() * .4);
+    const a  = Math.atan2(ty - y, tx - x);
+    const sp = Math.random() * .9 + .35;
+
+    return {
+        x, y,
+        vx: Math.cos(a) * sp,
+        vy: Math.sin(a) * sp,
+        size:      Math.random() * 11 + 5,
+        alpha:     Math.random() * .38 + .12,
+        wing:      Math.random() * Math.PI * 2,
+        waveAmp:   Math.random() * 14 + 5,
+        waveFreq:  Math.random() * .028 + .01,
+        t:         Math.random() * 200,
+        angle:     a,
+    };
+}
+
+function moveBat(b, W, H) {
+    b.t++;
+    b.wing += .14;
+    const perp = Math.sin(b.t * b.waveFreq) * b.waveAmp * .05;
+    b.x += b.vx + perp * Math.cos(b.angle + Math.PI / 2);
+    b.y += b.vy + perp * Math.sin(b.angle + Math.PI / 2);
+    if (b.x < -70 || b.x > W + 70 || b.y < -70 || b.y > H + 70) {
+        Object.assign(b, mkBat(W, H));
+    }
+}
+
+function paintBat(ctx, b, alphaMult) {
+    const { x, y, size: s, alpha, angle, wing } = b;
+    const flap = Math.sin(wing) * .38;
+
+    ctx.save();
+    ctx.globalAlpha  = alpha * (alphaMult || 1);
+    ctx.fillStyle    = '#ffd700';
+    ctx.shadowColor  = 'rgba(255,215,0,.55)';
+    ctx.shadowBlur   = 6;
+    ctx.translate(x, y);
+    ctx.rotate(angle + Math.PI / 2);
+
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.bezierCurveTo(
+        -s * .38, -s * (.62 + flap),
+        -s * 1.35, -s * (.2  + flap),
+        -s * 1.75,  s * (.28 - flap)
+    );
+    ctx.bezierCurveTo(
+        -s * 1.25,  s * (.52 - flap),
+        -s * .65,   s * .18,
+        -s * .12,   s * .32
+    );
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.bezierCurveTo(
+        s * .38, -s * (.62 + flap),
+        s * 1.35, -s * (.2  + flap),
+        s * 1.75,  s * (.28 - flap)
+    );
+    ctx.bezierCurveTo(
+        s * 1.25,  s * (.52 - flap),
+        s * .65,   s * .18,
+        s * .12,   s * .32
+    );
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.ellipse(0, s * .08, s * .16, s * .36, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.moveTo(-s * .09, -s * .18);
+    ctx.lineTo(-s * .30, -s * .68);
+    ctx.lineTo( s * .04, -s * .20);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.moveTo( s * .09, -s * .18);
+    ctx.lineTo( s * .30, -s * .68);
+    ctx.lineTo(-s * .04, -s * .20);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.restore();
+}
+
+// ============================================================
+//  PRELOADER  (helpers above must exist before this runs)
 // ============================================================
 (function initPreloader() {
     const bar    = document.getElementById('pre-bar');
@@ -15,8 +119,24 @@
     const loader = document.getElementById('preloader');
     const site   = document.getElementById('site');
 
+    if (!bar || !label || !loader || !site) return;
+
+    function dismiss() {
+        loader.style.transition = 'opacity .7s ease';
+        loader.style.opacity    = '0';
+        setTimeout(() => {
+            loader.style.display = 'none';
+            site.classList.remove('hidden');
+            site.classList.add('visible');
+            initAll();
+        }, 700);
+    }
+
     const msgs = ['Entering Gotham…', 'Igniting Bat Signal…', 'Deploying Gadgets…', 'Ready.'];
     let pct = 0, mi = 0;
+
+    // Safety escape — never get stuck more than 4 seconds
+    const safetyTimer = setTimeout(() => { pct = 100; dismiss(); }, 4000);
 
     // Mini bat canvas in preloader
     const preCvs = document.getElementById('pre-bats');
@@ -43,132 +163,12 @@
 
         if (pct >= 100) {
             clearInterval(tick);
-            setTimeout(() => {
-                loader.style.transition = 'opacity .7s ease';
-                loader.style.opacity    = '0';
-                setTimeout(() => {
-                    loader.style.display = 'none';
-                    site.classList.remove('hidden');
-                    site.classList.add('visible');
-                    initAll();
-                }, 700);
-            }, 350);
+            clearTimeout(safetyTimer);
+            setTimeout(dismiss, 350);
         }
     }, 48);
 })();
 
-// ============================================================
-//  BAT FACTORY
-// ============================================================
-function mkBat(W, H) {
-    // Spawn on a random edge, fly roughly toward centre
-    const edge  = Math.floor(Math.random() * 4);
-    let x, y;
-    if (edge === 0) { x = Math.random() * W; y = -30; }
-    else if (edge === 1) { x = W + 30; y = Math.random() * H; }
-    else if (edge === 2) { x = Math.random() * W; y = H + 30; }
-    else                 { x = -30; y = Math.random() * H; }
-
-    const tx = W * (.3 + Math.random() * .4);
-    const ty = H * (.3 + Math.random() * .4);
-    const a  = Math.atan2(ty - y, tx - x);
-    const sp = Math.random() * .9 + .35;
-
-    return {
-        x, y,
-        vx: Math.cos(a) * sp,
-        vy: Math.sin(a) * sp,
-        size:      Math.random() * 11 + 5,
-        alpha:     Math.random() * .38 + .12,
-        wing:      Math.random() * Math.PI * 2, // wing-flap phase
-        waveAmp:   Math.random() * 14 + 5,
-        waveFreq:  Math.random() * .028 + .01,
-        t:         Math.random() * 200,
-        angle:     a,
-    };
-}
-
-function moveBat(b, W, H) {
-    b.t++;
-    b.wing += .14;
-    const perp = Math.sin(b.t * b.waveFreq) * b.waveAmp * .05;
-    b.x += b.vx + perp * Math.cos(b.angle + Math.PI / 2);
-    b.y += b.vy + perp * Math.sin(b.angle + Math.PI / 2);
-    if (b.x < -70 || b.x > W + 70 || b.y < -70 || b.y > H + 70) {
-        Object.assign(b, mkBat(W, H));
-    }
-}
-
-// ============================================================
-//  DRAW BAT  (gold silhouette, animated wings)
-// ============================================================
-function paintBat(ctx, b, alphaMult) {
-    const { x, y, size: s, alpha, angle, wing } = b;
-    const flap = Math.sin(wing) * .38;
-
-    ctx.save();
-    ctx.globalAlpha  = alpha * (alphaMult || 1);
-    ctx.fillStyle    = '#ffd700';
-    ctx.shadowColor  = 'rgba(255,215,0,.55)';
-    ctx.shadowBlur   = 6;
-    ctx.translate(x, y);
-    ctx.rotate(angle + Math.PI / 2); // nose forward
-
-    // --- left wing ---
-    ctx.beginPath();
-    ctx.moveTo(0, 0);
-    ctx.bezierCurveTo(
-        -s * .38, -s * (.62 + flap),
-        -s * 1.35, -s * (.2  + flap),
-        -s * 1.75,  s * (.28 - flap)
-    );
-    ctx.bezierCurveTo(
-        -s * 1.25,  s * (.52 - flap),
-        -s * .65,   s * .18,
-        -s * .12,   s * .32
-    );
-    ctx.closePath();
-    ctx.fill();
-
-    // --- right wing ---
-    ctx.beginPath();
-    ctx.moveTo(0, 0);
-    ctx.bezierCurveTo(
-        s * .38, -s * (.62 + flap),
-        s * 1.35, -s * (.2  + flap),
-        s * 1.75,  s * (.28 - flap)
-    );
-    ctx.bezierCurveTo(
-        s * 1.25,  s * (.52 - flap),
-        s * .65,   s * .18,
-        s * .12,   s * .32
-    );
-    ctx.closePath();
-    ctx.fill();
-
-    // --- body ---
-    ctx.beginPath();
-    ctx.ellipse(0, s * .08, s * .16, s * .36, 0, 0, Math.PI * 2);
-    ctx.fill();
-
-    // --- left ear ---
-    ctx.beginPath();
-    ctx.moveTo(-s * .09, -s * .18);
-    ctx.lineTo(-s * .30, -s * .68);
-    ctx.lineTo( s * .04, -s * .20);
-    ctx.closePath();
-    ctx.fill();
-
-    // --- right ear ---
-    ctx.beginPath();
-    ctx.moveTo( s * .09, -s * .18);
-    ctx.lineTo( s * .30, -s * .68);
-    ctx.lineTo(-s * .04, -s * .20);
-    ctx.closePath();
-    ctx.fill();
-
-    ctx.restore();
-}
 
 // ============================================================
 //  BOOTSTRAP
