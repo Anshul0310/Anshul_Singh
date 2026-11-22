@@ -628,6 +628,7 @@ body.cursor-hover .cursor-follower { width: 56px; height: 56px; opacity: .2; }
     background: var(--surface); border: 1px solid var(--border);
     display: flex; align-items: center; justify-content: center;
     color: var(--text-2); transition: background .2s, color .2s, border-color .2s, transform .2s;
+    text-decoration: none; cursor: none;
 }
 .proj-card:hover .proj-arrow { background: var(--batman-gold); color: var(--hero-bg); border-color: var(--batman-gold); transform: rotate(45deg); }
 
