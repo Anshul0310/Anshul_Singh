@@ -146,11 +146,20 @@ function initCursor() {
     const fol = document.getElementById('cursor-follower');
     if (!cur || !fol) return;
 
-    let mx = 0, my = 0, fx = 0, fy = 0;
+    // Hide until first mouse move
+    cur.style.opacity = '0';
+    fol.style.opacity = '0';
+
+    let mx = -999, my = -999, fx = -999, fy = -999, started = false;
 
     document.addEventListener('mousemove', e => {
         mx = e.clientX; my = e.clientY;
         cur.style.left = mx + 'px'; cur.style.top = my + 'px';
+        if (!started) {
+            started = true;
+            cur.style.opacity = '1';
+            fol.style.opacity = '0.5';
+        }
     });
 
     (function anim() {
@@ -222,15 +231,15 @@ function initCounters() {
             const el  = entry.target;
             const end = parseInt(el.dataset.count, 10);
             let cur   = 0;
-            const inc = end / (1200 / 16);
+            const inc = Math.max(1, end / 60);
             const t   = setInterval(() => {
                 cur += inc;
                 if (cur >= end) { cur = end; clearInterval(t); }
-                el.textContent = Math.floor(cur);
+                el.textContent = Math.floor(cur) + (el.dataset.suffix || '');
             }, 16);
             obs.unobserve(el);
         });
-    }, { threshold: .5 });
+    }, { threshold: 0, rootMargin: '0px' });
     document.querySelectorAll('.stat-num[data-count]').forEach(n => obs.observe(n));
 }
 
