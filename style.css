@@ -268,10 +268,12 @@ body.cursor-hover .cursor-follower { width: 56px; height: 56px; opacity: .2; }
    SCROLL REVEAL
    ============================================================ */
 .reveal, .reveal-right {
-    opacity: 0; transform: translateY(32px);
+    opacity: 1; transform: none;
     transition: opacity .7s var(--ease), transform .7s var(--ease);
 }
-.reveal-right { transform: translateX(32px); }
+.reveal-right { transform: none; }
+.reveal.pre-hidden { opacity: 0; transform: translateY(32px); }
+.reveal-right.pre-hidden { opacity: 0; transform: translateX(32px); }
 .reveal.visible, .reveal-right.visible { opacity: 1; transform: none; }
 
 /* ============================================================

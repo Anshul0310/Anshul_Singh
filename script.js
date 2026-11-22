@@ -186,15 +186,20 @@ function initNav() {
 // ============================================================
 function initScrollReveal() {
     const els = document.querySelectorAll('.reveal, .reveal-right');
+    // Mark elements as pre-hidden so off-screen ones animate in on scroll
+    els.forEach(el => el.classList.add('pre-hidden'));
     const obs = new IntersectionObserver(entries => {
         entries.forEach(entry => {
             if (!entry.isIntersecting) return;
             const idx   = Array.from(entry.target.parentElement.children).indexOf(entry.target);
             const delay = idx * 80;
-            setTimeout(() => entry.target.classList.add('visible'), delay);
+            setTimeout(() => {
+                entry.target.classList.remove('pre-hidden');
+                entry.target.classList.add('visible');
+            }, delay);
             obs.unobserve(entry.target);
         });
-    }, { threshold: .12, rootMargin: '0px 0px -40px 0px' });
+    }, { threshold: 0.05, rootMargin: '0px 0px 0px 0px' });
     els.forEach(el => obs.observe(el));
 }
 
