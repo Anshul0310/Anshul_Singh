@@ -114,20 +114,43 @@ function paintBat(ctx, b, alphaMult) {
 //  BOOTSTRAP — CSS handles preloader; just init everything
 // ============================================================
 function initAll() {
-    initCursor();
-    initNav();
-    initScrollReveal();
-    initCounters();
-    initTilt();
-    initHeroBats();
-    initActiveNav();
-    initSmoothScroll();
-    // safe lucide call — CDN might be slow
-    if (typeof lucide !== 'undefined') lucide.createIcons();
+    try { initCursor(); }       catch(e) { console.warn('cursor', e); }
+    try { initNav(); }          catch(e) { console.warn('nav', e); }
+    try { initScrollReveal(); } catch(e) { console.warn('reveal', e); }
+    try { initCounters(); }     catch(e) { console.warn('counters', e); }
+    try { initTilt(); }         catch(e) { console.warn('tilt', e); }
+    try { initHeroBats(); }     catch(e) { console.warn('bats', e); }
+    try { initActiveNav(); }    catch(e) { console.warn('activeNav', e); }
+    try { initSmoothScroll(); } catch(e) { console.warn('scroll', e); }
+    tryIcons();
+}
+
+function tryIcons() {
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    } else {
+        // CDN not ready yet — retry up to 10 times
+        let attempts = 0;
+        const wait = setInterval(() => {
+            attempts++;
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+                clearInterval(wait);
+            } else if (attempts >= 10) {
+                clearInterval(wait);
+            }
+        }, 300);
+    }
 }
 
 // Script is at bottom of <body> so DOM is ready — call directly
 initAll();
+
+// Remove preloader from DOM after CSS animation finishes (2.4s fade + 0.7s = 3.1s)
+setTimeout(function() {
+    var loader = document.getElementById('preloader');
+    if (loader) loader.remove();
+}, 3200);
 
 // ============================================================
 //  CUSTOM CURSOR

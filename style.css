@@ -95,7 +95,7 @@ body.cursor-hover .cursor-follower { width: 56px; height: 56px; opacity: .2; }
     background: var(--hero-bg);
     display: flex; align-items: center; justify-content: center;
     z-index: 9000; overflow: hidden;
-    /* auto-dismiss: fade out after 2.4s, then become non-interactive */
+    pointer-events: none; /* never block clicks */
     animation: preloaderOut 0.7s ease 2.4s forwards;
 }
 @keyframes preloaderOut {
