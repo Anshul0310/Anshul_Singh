@@ -1,4 +1,4 @@
-'use strict';
+// script.js — Batman Edition (ES module for Vite bundling)
 
 /* ============================================================
    ANSHUL SINGH — Portfolio 2026
