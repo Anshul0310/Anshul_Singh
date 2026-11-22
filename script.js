@@ -126,21 +126,7 @@ function initAll() {
 }
 
 function tryIcons() {
-    if (typeof lucide !== 'undefined') {
-        lucide.createIcons();
-    } else {
-        // CDN not ready yet — retry up to 10 times
-        let attempts = 0;
-        const wait = setInterval(() => {
-            attempts++;
-            if (typeof lucide !== 'undefined') {
-                lucide.createIcons();
-                clearInterval(wait);
-            } else if (attempts >= 10) {
-                clearInterval(wait);
-            }
-        }, 300);
-    }
+    // Icons are now all inline SVG — no CDN needed
 }
 
 // Script is at bottom of <body> so DOM is ready — call directly
