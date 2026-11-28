@@ -213,6 +213,16 @@ body.cursor-hover .cursor-follower { width: 56px; height: 56px; opacity: .2; }
 .nav.scrolled-light .nav-link:hover,
 .nav.scrolled-light .nav-link.active { color: var(--batman-gold-2); }
 
+/* Resume button in nav */
+.nav-resume {
+    background: var(--batman-gold); color: var(--hero-bg) !important;
+    padding: 6px 16px; border-radius: 6px; font-weight: 600;
+    transition: background .25s, transform .25s;
+}
+.nav-resume::after { display: none; }
+.nav-resume:hover { background: var(--batman-gold-2); transform: translateY(-2px); }
+.nav.scrolled-light .nav-resume { color: var(--hero-bg) !important; }
+
 .nav-toggle {
     display: none; background: none; border: none;
     cursor: none; color: var(--batman-gold); padding: 8px;
